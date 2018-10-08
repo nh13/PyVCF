@@ -205,14 +205,14 @@ class _Record(object):
 
 
     def _set_start_and_end(self):
-        self.affected_start = self.affected_end = self.POS
+        self.affected_start = self.affected_end = self.end
         for alt in self.ALT:
             if alt is None:
                 start, end = self._compute_coordinates_for_none_alt()
             elif alt.type == 'SNV':
                 start, end = self._compute_coordinates_for_snp()
             elif alt.type == 'MNV':
-                start, end = self._compute_coordinates_for_indel()
+                start, end = self._compute_coordinates_for_indel(alt)
             else:
                 start, end = self._compute_coordinates_for_sv()
             self.affected_start = min(self.affected_start, start)
@@ -235,10 +235,16 @@ class _Record(object):
         return (start, end)
 
 
-    def _compute_coordinates_for_indel(self):
+    def _compute_coordinates_for_indel(self, alt):
         if len(self.REF) > 1:
-            start = self.POS
-            end = start + (len(self.REF) - 1)
+            # get the number of leading bases that are shared between ref and alt
+            n = 0
+            for i in range(min(len(self.REF), len(alt.sequence))):
+                if self.REF[i] != alt.sequence[i]:
+                    break;
+                n += 1
+            start = self.POS + n - 1
+            end = self.POS + (len(self.REF) - 1)
         else:
             start = end = self.POS
         return (start, end)

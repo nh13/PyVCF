@@ -156,7 +156,7 @@ for the regions of interest::
 
 Note that the start and end coordinates are in the zero-based, half-open
 coordinate system, similar to ``_Record.start`` and ``_Record.end``. The very
-first base of a chromosome is index 0, and the the region includes bases up
+first base of a chromosome is index 0, and the region includes bases up
 to, but not including the base at the end coordinate. For example::
 
     >>> # fetch all records on chromosome 4 from base 11 through 20

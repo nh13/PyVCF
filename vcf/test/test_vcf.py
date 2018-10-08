@@ -1189,6 +1189,25 @@ class TestRecord(unittest.TestCase):
                 None
         )
         self.assert_has_expected_coordinates(record, (9, 12), (9, 12))
+    
+    
+    def test_coordinates_for_mnp(self):
+        record = model._Record(
+                '1',
+                10,
+                'id13',
+                'AAA',
+                [
+                    model._Substitution('AAT')
+                ],
+                None,
+                None,
+                {},
+                None,
+                {},
+                None
+        )
+        self.assert_has_expected_coordinates(record, (9, 12), (11, 12))
 
 
 class TestCall(unittest.TestCase):
